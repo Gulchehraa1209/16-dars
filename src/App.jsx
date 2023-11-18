@@ -1,37 +1,77 @@
-import React, { Component } from 'react'
-import {Switch, Route, Link} from "react-router-dom"
-import OptionOne from './Component/OptionOne'
-import OptionTwo from './Component/OptionTwo'
-import OptionThree from './Component/OptionThree'
-import OptionFour from './Component/OptionFour'
-import OptionFive from './Component/OptionFive'
+import AComponent from "./components/AComponent"
+import AFirstChild from "./components/AFirstChild"
+import BComponent from "./components/BComponent"
+import { useState } from "react"
 
-export default class App extends Component {
-  render() {
-    return (
-      <div className='container'>
-                <div className="row my-4">
-                    <div className="col-md-6">
-                            <Link to="/"> <button className='btn btn-success'>HOME</button> </Link>
-                            <Link to="/optionOne"> <button className='btn btn-success'>Option1</button> </Link>
-                            <Link to="/optionTwo"> <button className='btn btn-success'>Option2</button> </Link>
-                            <Link to="/optionThree"> <button className='btn btn-success'>Option3</button> </Link>
-                            <Link to="/optionFour"> <button className='btn btn-success'>Option4</button> </Link>
-                            <Link to="/optionFive"> <button className='btn btn-success'>Option5</button> </Link>
-                    </div>
-                    <div className="col-md-6">
-                        <div className="card card-body p-5">
-                            <Switch>
-                                <Route path="/optionOne" component={OptionOne}/>
-                                <Route path="/optionTwo" component={OptionTwo}/>
-                                <Route path="/optionThree" component={OptionThree}/>
-                                <Route path="/optionFour" component={OptionFour}/>
-                                <Route path="/optionFive" component={OptionFive}/>
-                            </Switch>
-                        </div>
-                    </div>
-                </div>
-      </div>
+  const App = () => {
+    
+    var [count, setCount] = useState(0)
+    const [name, setName] =useState("John")
+    const [users, setUsers] = useState(
+      [
+        {id:1, firstName:'Gulchehra', LastName:"Sadullayeva", age:32},
+        {id:2, firstName:'Helen', LastName:"Smith", age:35},
+        {id:3, firstName:'Ann', LastName:"Hathway", age:38},
+      ]
     )
-  }
+    const [user,setUser] = useState({name:"AAA", lastname:"BBB", age:23})
+    var ChangeName=()=>{
+      var a = {...user, name:"DDD"}
+      setUser(a)
+    }
+
+  return (
+    <div className="container">
+      <div className="row">
+        <div className="col-md-6 offset-3 my-5">
+          <div className="card card-body">
+            <h1 className="text-center">Parent Component</h1>
+          </div>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-md-6">
+          <div className="card card-body">
+            <AComponent/>
+          </div>
+        </div>
+        <div className="col-md-6">
+          <div className="card card-body">
+            <BComponent/>
+          </div>
+        </div>
+      </div>
+
+      <h1>{count}</h1>
+      <button onClick={()=>setCount(prev=> prev+1)}>changeCount</button>
+      <h1>{name}</h1>
+      <button onClick={()=>setName("Gulchehra")}>changeName</button>
+      <hr />
+      <table className="table table-dark">
+        <thead>
+          <tr>
+            <th>NO</th>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>Age</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            users.map(item=><tr>
+              <td>{item.id}</td>
+              <td>{item.firstName}</td>
+              <td>{item.LastName}</td>
+              <td>{item.age}</td>
+            </tr>)
+          }
+        </tbody>
+      </table>
+      <hr />``
+      <h1>{user.name + " " + user.lastname}</h1>
+      <button onClick={ChangeName}>changeName</button>
+      </div>
+      
+  )
 }
+export default App
