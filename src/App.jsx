@@ -1,77 +1,113 @@
-import AComponent from "./components/AComponent"
-import AFirstChild from "./components/AFirstChild"
-import BComponent from "./components/BComponent"
-import { useState } from "react"
+import React from 'react'
+import { useState } from 'react'
+import ModalComponent from './ModalComponent'
 
-  const App = () => {
-    
-    var [count, setCount] = useState(0)
-    const [name, setName] =useState("John")
-    const [users, setUsers] = useState(
-      [
-        {id:1, firstName:'Gulchehra', LastName:"Sadullayeva", age:32},
-        {id:2, firstName:'Helen', LastName:"Smith", age:35},
-        {id:3, firstName:'Ann', LastName:"Hathway", age:38},
-      ]
-    )
-    const [user,setUser] = useState({name:"AAA", lastname:"BBB", age:23})
-    var ChangeName=()=>{
-      var a = {...user, name:"DDD"}
-      setUser(a)
+const App = () => {
+
+  const [active, setActive] = useState(false)
+  const [users, setUsers] = useState([
+    {
+      id: 1,
+      firstName: "Mark",
+      lastName: "Otto",
+      phone: 99876543,
+      active: false,
+      count: 0,
+    },
+    {
+      id: 2,
+      firstName: "John",
+      lastName: "Doe",
+      phone: 88777875,
+      active: false,
+      count: 0,
+    },
+    {
+      id: 3,
+      firstName: "Helen",
+      lastName: "Smith",
+      phone: 992007072,
+      active: false,
+      count: 0,
+    },
+    {
+      id: 4,
+      firstName: "Larry",
+      lastName: "TheBirsd",
+      phone: 99879222,
+      active: false,
+      count: 0,
+    },
+    {
+      id: 5,
+      firstName: "Jacob",
+      lastName: "Smacktat",
+      phone: 88787878,
+      active: false,
+      count: 0,
     }
+  ])
 
+  var OpenModal = () => {
+    setActive(prev => !prev)
+  }
+  var AddUsers = (values) => {
+    var obj = {
+      id:users.length+1,
+      firstName:values.firstName,
+      lastName:values.lastName,
+      phone:values.phone,
+      active:false,
+      count:0
+    }
+    users.push(obj)
+    setUsers([...users])
+    setActive(false)
+  }
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-md-6 offset-3 my-5">
-          <div className="card card-body">
-            <h1 className="text-center">Parent Component</h1>
-          </div>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-md-6">
-          <div className="card card-body">
-            <AComponent/>
-          </div>
-        </div>
-        <div className="col-md-6">
-          <div className="card card-body">
-            <BComponent/>
-          </div>
-        </div>
+    <div className='container'>
+      <ModalComponent isOpen={active} toggle={OpenModal} AddUsers={AddUsers} />
+
+      <button onClick={OpenModal} className='btn btn-outline-dark my-4'>+Add</button>
+      <div className="row my-2">
+        <table className='table table-dark'>
+          <thead>
+            <tr>
+              <th>NO</th>
+              <th>FirstName</th>
+              <th>LastName</th>
+              <th>Phone</th>
+              <th>Active</th>
+              <th>Count</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              users.map((item, index) => <tr key={index}>
+                <td>{item.id}</td>
+                <td>{item.firstName}</td>
+                <td>{item.lastName}</td>
+                <td>{item.phone}</td>
+                <td>
+                  <input type="checkbox" checked={item.active} />
+                </td>
+                <td>
+                  <button className='btn btn-outline-light btn-sm'>+</button>
+                  {item.count}
+                  <button className='btn btn-outline-light btn-sm mx-1'>-</button>
+                </td>
+                <td>
+                  <button className='btn btn-danger btn-sm'>del</button>
+                </td>
+              </tr>)
+            }
+          </tbody>
+        </table>
       </div>
 
-      <h1>{count}</h1>
-      <button onClick={()=>setCount(prev=> prev+1)}>changeCount</button>
-      <h1>{name}</h1>
-      <button onClick={()=>setName("Gulchehra")}>changeName</button>
-      <hr />
-      <table className="table table-dark">
-        <thead>
-          <tr>
-            <th>NO</th>
-            <th>FirstName</th>
-            <th>LastName</th>
-            <th>Age</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            users.map(item=><tr>
-              <td>{item.id}</td>
-              <td>{item.firstName}</td>
-              <td>{item.LastName}</td>
-              <td>{item.age}</td>
-            </tr>)
-          }
-        </tbody>
-      </table>
-      <hr />``
-      <h1>{user.name + " " + user.lastname}</h1>
-      <button onClick={ChangeName}>changeName</button>
-      </div>
-      
+    </div>
   )
 }
+
 export default App
