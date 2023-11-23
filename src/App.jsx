@@ -1,6 +1,8 @@
 import React from 'react'
 import { useState } from 'react'
 import ModalComponent from './ModalComponent'
+import Thead from './Thead'
+import Tbody from './Tbody'
 
 const App = () => {
 
@@ -53,17 +55,29 @@ const App = () => {
   }
   var AddUsers = (values) => {
     var obj = {
-      id:users.length+1,
-      firstName:values.firstName,
-      lastName:values.lastName,
-      phone:values.phone,
-      active:false,
-      count:0
+      id: users.length + 1,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      phone: values.phone,
+      active: false,
+      count: 0
     }
     users.push(obj)
     setUsers([...users])
     setActive(false)
   }
+
+  var changeActive = (item, e) => {
+    item.active = e.target.checked
+    setUsers([...users])
+  }
+
+  var DelUsers=(index)=>{
+      users.splice(index,1)
+      setUsers([...users])
+  }
+
+
   return (
     <div className='container'>
       <ModalComponent isOpen={active} toggle={OpenModal} AddUsers={AddUsers} />
@@ -71,38 +85,8 @@ const App = () => {
       <button onClick={OpenModal} className='btn btn-outline-dark my-4'>+Add</button>
       <div className="row my-2">
         <table className='table table-dark'>
-          <thead>
-            <tr>
-              <th>NO</th>
-              <th>FirstName</th>
-              <th>LastName</th>
-              <th>Phone</th>
-              <th>Active</th>
-              <th>Count</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              users.map((item, index) => <tr key={index}>
-                <td>{item.id}</td>
-                <td>{item.firstName}</td>
-                <td>{item.lastName}</td>
-                <td>{item.phone}</td>
-                <td>
-                  <input type="checkbox" checked={item.active} />
-                </td>
-                <td>
-                  <button className='btn btn-outline-light btn-sm'>+</button>
-                  {item.count}
-                  <button className='btn btn-outline-light btn-sm mx-1'>-</button>
-                </td>
-                <td>
-                  <button className='btn btn-danger btn-sm'>del</button>
-                </td>
-              </tr>)
-            }
-          </tbody>
+            <Thead/>
+            <Tbody users={users} changeActive={changeActive} DelUsers={DelUsers}/>
         </table>
       </div>
 
