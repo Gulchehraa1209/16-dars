@@ -1,95 +1,33 @@
 import React from 'react'
 import { useState } from 'react'
-import ModalComponent from './ModalComponent'
-import Thead from './Thead'
-import Tbody from './Tbody'
 
 const App = () => {
+      const [arr,setarr] = useState([])
 
-  const [active, setActive] = useState(false)
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      firstName: "Mark",
-      lastName: "Otto",
-      phone: 99876543,
-      active: false,
-      count: 0,
-    },
-    {
-      id: 2,
-      firstName: "John",
-      lastName: "Doe",
-      phone: 88777875,
-      active: false,
-      count: 0,
-    },
-    {
-      id: 3,
-      firstName: "Helen",
-      lastName: "Smith",
-      phone: 992007072,
-      active: false,
-      count: 0,
-    },
-    {
-      id: 4,
-      firstName: "Larry",
-      lastName: "TheBirsd",
-      phone: 99879222,
-      active: false,
-      count: 0,
-    },
-    {
-      id: 5,
-      firstName: "Jacob",
-      lastName: "Smacktat",
-      phone: 88787878,
-      active: false,
-      count: 0,
+      var AddCounter=()=>{
+        arr.push(0)
+        setarr([...arr])
+      }
+
+      var Plus=(index)=>{
+          arr[index] = arr[index]+1
+          setarr([...arr])
+      }
+      var Minus=(index)=>{
+        arr[index] = arr[index]-1
+        setarr([...arr])
     }
-  ])
-
-  var OpenModal = () => {
-    setActive(prev => !prev)
-  }
-  var AddUsers = (values) => {
-    var obj = {
-      id: users.length + 1,
-      firstName: values.firstName,
-      lastName: values.lastName,
-      phone: values.phone,
-      active: false,
-      count: 0
-    }
-    users.push(obj)
-    setUsers([...users])
-    setActive(false)
-  }
-
-  var changeActive = (item, e) => {
-    item.active = e.target.checked
-    setUsers([...users])
-  }
-
-  var DelUsers=(index)=>{
-      users.splice(index,1)
-      setUsers([...users])
-  }
-
-
   return (
     <div className='container'>
-      <ModalComponent isOpen={active} toggle={OpenModal} AddUsers={AddUsers} />
-
-      <button onClick={OpenModal} className='btn btn-outline-dark my-4'>+Add</button>
-      <div className="row my-2">
-        <table className='table table-dark'>
-            <Thead/>
-            <Tbody users={users} changeActive={changeActive} DelUsers={DelUsers}/>
-        </table>
-      </div>
-
+        <h1>Counters:</h1>
+       {
+        arr.map((item,index)=><div key={index}>
+          <span>{index+1}. counter{index+1} =  {item}</span>
+          <button onClick={()=>Plus(index)} className='btn btn-outline-dark m-1 btn-sm'>+</button>
+          <button onClick={()=>Minus(index)} className='btn btn-outline-dark m-1 btn-sm'>-</button>
+        </div>)
+       }
+        <button className='btn btn-outline-dark my-2 mx-3' onClick={AddCounter}>+Add Counter</button>
     </div>
   )
 }
