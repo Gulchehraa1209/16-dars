@@ -1,44 +1,50 @@
-import React from 'react'
-import { useEffect } from 'react'
-import { useState } from 'react'
-import Red from './component/Red'
-import Yellow from './component/Yellow'
-import Green from './component/Green'
+import React, { createContext, useState } from 'react'
+import FirsrtComponent from './Components/FirsrtComponent'
+import SecondCompoennt from './Components/SecondCompoennt'
 
+export const MyContext = createContext()
 const App = () => {
 
-      const [sec,setSec] = useState(15)
+  const [count1, setCount1] = useState(0)
+  const [count2, setCount2] = useState(0)
+  const [count3, setCount3] = useState(0)
+  const [count4, setCount4] = useState(0)
 
-      useEffect(()=>{
-        var i = setInterval(() => {
-          if(sec===0){
-            setSec(15)
-          }else{
-            setSec(prev=>prev-1)
-          }
-        }, 1000);
-        return ()=>{
-          clearInterval(i)
-        }
-      },[sec])
 
+  var Plus=()=>{
+    setCount1(prev=>prev+1)
+    setCount2(prev=>prev+1)
+    setCount3(prev=>prev+1)
+    setCount4(prev=>prev+1)
+  }
+  var Minus=()=>{
+    setCount1(prev=>prev-1)
+    setCount2(prev=>prev-1)
+    setCount3(prev=>prev-1)
+    setCount4(prev=>prev-1)
+  }
   return (
-    <div className='container my-3'>
-        <h2 className='text-center'>Svetofor</h2>
-        <div className="row justify-content-center my-4">
-          <div className="svetofor">
-            <div className="rama">
-                {10 < sec ? <Red second={sec}/>:""}
-            </div>
-            <div className="rama">
-                {sec < 11 && sec > 5 ?<Yellow second={sec}/>:""}
-            </div>
-            <div className="rama">
-                {sec < 6 ?<Green second={sec}/>:""}
-            </div>
+    <MyContext.Provider value={{
+      count1, count2, count3, count4,
+      setCount1, setCount2, setCount3, setCount4
+    }}>
+      <div className='container'>
+        <div className="row border border-dark mt-4">
+          <div className="col-md-3 offset-5 ps-5 my-2">
+            <button className='btn btn-outline-dark ' onClick={Plus}> +</button>
+            <button className='btn btn-outline-dark mx-3' onClick={Minus}>-</button>
           </div>
         </div>
-    </div>
+        <div className="row">
+          <div className="col-md-6 border border-dark p-5">
+            <FirsrtComponent />
+          </div>
+          <div className="col-md-6 border border-dark p-5">
+            <SecondCompoennt />
+          </div>
+        </div>
+      </div>
+    </MyContext.Provider>
   )
 }
 
