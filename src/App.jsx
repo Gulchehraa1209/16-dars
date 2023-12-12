@@ -1,29 +1,25 @@
-import React, { useEffect, useState } from 'react'
-import api from './api'
+import React, { useState } from 'react'
+import {Link, Route, Switch} from 'react-router-dom'
+import Posts from './Pages/Posts'
+import Todos from './Pages/Todos'
+import Users from './Pages/Users'
 
 const App = () => {
 
-  const [Posts, setPosts] = useState([])
 
-  var GetPosts = () => {
-    api.get("/posts").then((res) => setPosts(res.data))
-  }
-  useEffect(() => {
-    GetPosts()
-  }, [])
-
+  
   return (
-    <div className='container'>
-      <div className="row">
-          {
-            Posts.map((item, index) => <div className='col-md-4 my-2' key={index}>
-              <div className="card">
-                <div className="card-header">{item.id}. {item.title}</div>
-                <div className="card-body">{item.body}</div>
-              </div>
-            </div>)
-          }
-      </div>
+    <div className='container my-3'>
+      <Link className="btn btn-dark mx-2" to="/posts">Posts</Link>
+      <Link className="btn btn-dark mx-2" to="/todos">Todos</Link>
+      <Link className="btn btn-dark mx-2" to="/users">Users</Link>
+      <hr />
+      <br />
+      <Switch>
+        <Route path="/posts" component={Posts}/>
+        <Route path="/todos" component={Todos}/>
+        <Route path="/users" component={Users}/>
+      </Switch>
     </div>
   )
 }
