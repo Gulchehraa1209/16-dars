@@ -1,41 +1,27 @@
-import { combineReducers } from "redux";
-import { createStore, applyMiddleware } from "redux";
-import logger from "redux-logger";
+import ReactDOM from 'react-dom/client'
+import App from './App'
+import { createStore } from 'redux'
+import { applyMiddleware } from 'redux'
+import logger from 'redux-logger'
+import { Provider } from 'react-redux'
 
-function UserReducer(state={
-        name: "John",
-        age:23,
-        isStudent:true
-}, action) {
+
+
+function reducer(state = { 
+        name:"John",
+        age:32
+ }, action) {
         switch (action.type) {
                 case "setName":
-                        return { ...state, name: "Johon" }
-                        break
-                case "setAge":
-                        return {...state, age:32}
-                        break
-                case "setStudent":
-                        return {...state, isStudent:false}
-        }
-        return state
-}
-
-function TodoUsers(state={
-        kartoshka:"20kg",
-        ananas:"33kg"
-},action){
-        switch(action.type){
-                case "setKartoshka":
-                        return {...state, kartoshka:"10kg"}
-                        break
-                case "setAnanas":
-                        return {...state, ananas:"30kg"}
+                        return {...state, name:"Johon"}
                         break
         }
         return state
 }
+const store = createStore(reducer, applyMiddleware(logger))
 
-const store = createStore(combineReducers({UserReducer, TodoUsers}), applyMiddleware(logger))
-
-store.dispatch({ type: "setKartoshka" })
-store.dispatch({ type: "setAnanas" })
+ReactDOM.createRoot(document.getElementById("root")).render(
+        <Provider store={store}>
+                <App />
+        </Provider>
+)
